@@ -1,0 +1,12 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+
+<div class="container">
+    <div class="card">
+        <h1>Test platformasi</h1>
+        <p>Quyidagilardan birini tanlang:</p><br>
+
+        <a href="{% url 'start_quiz' 'all' %}" class="btn">Hamma testni ishlash</a>
+        <a href="{% url 'start_quiz' '30' %}" class="btn">Random 30 ta test</a>
+    </div>
+</div>

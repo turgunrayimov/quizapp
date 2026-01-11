@@ -1,8 +1,11 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
 
-<div class="card">
-    <h2>Natija</h2>
-    <p class="result">Siz {{ total }} savoldan {{ score }} tasini to‘g‘ri topdingiz 🎉</p>
-    <a href="/" class="btn">Qayta boshlash</a>
+<div class="container">
+    <div class="card">
+        <h2>Natija</h2>
+        <p class="result">Siz {{ total }} savoldan {{ score }} tasini to‘g‘ri topdingiz 🎉</p>
+        <p class="result">Sizning bahongiz: <b>{{ grade }}</b></p>
+        <a href="/" class="btn">Qayta boshlash</a>
+    </div>
 </div>
