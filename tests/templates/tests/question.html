@@ -1,0 +1,20 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+
+<div class="container">
+    <div class="card">
+        <h2>{{ q_num }}/{{ total }}-savol</h2>
+        <p class="question">{{ question.text }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            {% for a in question.answers.all %}
+                <label class="option">
+                    <input type="radio" name="answer" value="{{ a.id }}" required>
+                    {{ a.text }}
+                </label>
+            {% endfor %}
+            <button class="btn">Javob berish</button>
+        </form>
+    </div>
+</div>
