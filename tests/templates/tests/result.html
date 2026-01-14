@@ -1,11 +1,17 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Natija</title>
+    <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+</head>
+<body>
+<div class="box">
+    <h1>Test {{ test_no }} yakuni</h1>
+    <h2>{{ total }} savoldan {{ score }} tasini to'g'ri topdingiz!</h2>
 
-<div class="container">
-    <div class="card">
-        <h2>Natija</h2>
-        <p class="result">Siz {{ total }} savoldan {{ score }} tasini to‘g‘ri topdingiz 🎉</p>
-        <p class="result">Sizning bahongiz: <b>{{ grade }}</b></p>
-        <a href="/" class="btn">Qayta boshlash</a>
-    </div>
+    <a href="/" class="btn btn-success">Testlar ro'yxatiga qaytish</a>
 </div>
+</body>
+</html>

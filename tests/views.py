@@ -1,82 +1,84 @@
 from django.shortcuts import render, redirect
-from tests.models import Question, Answer
-import random
+from .models import Question, Answer
+import math
 
-def home(request):
-    """Bosh sahifa — tugmalar tanlash"""
-    return render(request, 'tests/home.html')
+PAGE_SIZE = 30  # Bir testdagi savollar soni
 
+def test_list(request):
+    total_questions = Question.objects.count()
+    test_count = math.ceil(total_questions / PAGE_SIZE)
+    tests = range(1, test_count + 1)
 
-def start_quiz(request, mode):
-    """
-    mode: 'all' yoki '30'
-    Sessiyaga savollar ro'yxatini saqlaymiz
-    """
-    all_questions = list(Question.objects.all())
-
-    if mode == 'all':
-        questions = all_questions
-    elif mode == '30':
-        questions = random.sample(all_questions, min(30, len(all_questions)))
-    else:
-        return redirect('home')
-
-    # Sessiyada saqlaymiz
-    request.session['questions'] = [q.id for q in questions]
+    # har ehtimolga qarshi
+    request.session['q_index'] = 0
     request.session['score'] = 0
-    request.session['current'] = 0  # hozirgi savol index
 
-    return redirect('question')
-
-
-def question_view(request):
-    """1 test = 1 sahifa"""
-    questions_ids = request.session.get('questions', [])
-    current_index = request.session.get('current', 0)
-
-    if current_index >= len(questions_ids):
-        return redirect('result')
-
-    question = Question.objects.get(id=questions_ids[current_index])
-
-    if request.method == "POST":
-        selected = request.POST.get('answer')
-        if selected and Answer.objects.filter(id=selected, is_correct=True).exists():
-            request.session['score'] += 1
-
-        # Keyingi savol
-        request.session['current'] = current_index + 1
-        return redirect('question')
-
-    return render(request, 'tests/question.html', {
-        'question': question,
-        'q_num': current_index + 1,
-        'total': len(questions_ids)
+    return render(request, 'tests/test_list.html', {
+        'tests': tests,
+        'total': total_questions
     })
 
 
-def result_view(request):
+def quiz(request, test_no):
+    q_index = request.session.get('q_index', 0)
+    questions = Question.objects.all()
+
+    start = (test_no - 1) * PAGE_SIZE
+    end = start + PAGE_SIZE
+    group = questions[start:end]
+
+    # agar test savollari tugasa
+    if q_index >= len(group):
+        return redirect('result', test_no=test_no)
+
+    question = group[q_index]
+    answers = Answer.objects.filter(question=question)
+
+    return render(request, 'tests/question.html', {
+        'question': question,
+        'answers': answers,
+        'index': q_index + 1,
+        'total': len(group),
+        'test_no': test_no
+    })
+
+
+def submit_answer(request, test_no):
+    if request.method == 'POST':
+        answer_id = request.POST.get('answer')
+        q_index = request.session.get('q_index', 0)
+
+        questions = Question.objects.all()
+        start = (test_no - 1) * PAGE_SIZE
+        end = start + PAGE_SIZE
+        group = questions[start:end]
+
+        # ball hisob
+        if answer_id:
+            ans = Answer.objects.get(id=answer_id)
+            if ans.is_correct:
+                request.session['score'] = request.session.get('score', 0) + 1
+
+        request.session['q_index'] = q_index + 1
+
+    return redirect('quiz', test_no=test_no)
+
+
+def result(request, test_no):
+    questions = Question.objects.all()
+    start = (test_no - 1) * PAGE_SIZE
+    end = start + PAGE_SIZE
+    group = questions[start:end]
+
     score = request.session.get('score', 0)
-    total = len(request.session.get('questions', []))
+    total = len(group)
 
-    # Bahoni hisoblash
-    percentage = (score / total) * 100 if total > 0 else 0
-    if percentage >= 90:
-        grade = 5
-    elif percentage >= 75:
-        grade = 4
-    elif percentage >= 50:
-        grade = 3
-    else:
-        grade = 2
-
-    # Sessiyani tozalash
-    request.session['questions'] = []
+    # Reset
+    request.session['q_index'] = 0
     request.session['score'] = 0
-    request.session['current'] = 0
 
     return render(request, 'tests/result.html', {
         'score': score,
         'total': total,
-        'grade': grade
+        'test_no': test_no
     })

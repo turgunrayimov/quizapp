@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         for para in doc.paragraphs:
             text = para.text.strip()
-            if text.startswith("?"):
+            if text.startswith("*"):
                 if current:
                     tests.append(current)
                 current = {"question": text[1:].strip(), "answers": []}

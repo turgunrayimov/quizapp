@@ -1,20 +1,25 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Test {{ test_no }}</title>
+    <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+</head>
+<body>
+<div class="card">
+    <h2>Savol {{ index }}/{{ total }}</h2>
+    <h3>{{ question.text }}</h3>
 
-<div class="container">
-    <div class="card">
-        <h2>{{ q_num }}/{{ total }}-savol</h2>
-        <p class="question">{{ question.text }}</p>
-
-        <form method="post">
-            {% csrf_token %}
-            {% for a in question.answers.all %}
-                <label class="option">
-                    <input type="radio" name="answer" value="{{ a.id }}" required>
-                    {{ a.text }}
-                </label>
-            {% endfor %}
-            <button class="btn">Javob berish</button>
-        </form>
-    </div>
+    <form action="{% url 'submit' test_no %}" method="POST">
+        {% csrf_token %}
+        {% for ans in answers %}
+        <p>
+            <label><input type="radio" name="answer" value="{{ ans.id }}" required> {{ ans.text }}</label>
+        </p>
+        {% endfor %}
+        <button type="submit">Keyingi</button>
+    </form>
 </div>
+</body>
+</html>

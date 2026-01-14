@@ -1,9 +1,11 @@
+from django.contrib import admin
 from django.urls import path
-from .views import home, start_quiz, question_view, result_view
+from tests.views import test_list, quiz, submit_answer, result
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('start/<str:mode>/', start_quiz, name='start_quiz'),
-    path('question/', question_view, name='question'),
-    path('result/', result_view, name='result'),
+    path('admin/', admin.site.urls),
+    path('', test_list, name='test_list'),
+    path('test/<int:test_no>/', quiz, name='quiz'),
+    path('submit/<int:test_no>/', submit_answer, name='submit'),
+    path('result/<int:test_no>/', result, name='result'),
 ]

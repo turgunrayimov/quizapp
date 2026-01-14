@@ -1,63 +1,68 @@
-html, body {
-    height: 100%;
-    margin: 0;
+body {
+    font-family: Arial, sans-serif;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 0 20px;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+.card, .box {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.06);
+}
+
+button, a.btn {
+    width: 100%;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}
+
+button {
+    background: #007bff;
+    color: white;
+    margin-top: 15px;
+}
+
+button:hover, a.btn:hover {
+    opacity: 0.9;
+}
+
+a.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+ul {
+    list-style: none;
     padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f2f2f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.container {
-    width: 100%;
-    max-width: 650px;
-    padding: 20px;
+li {
+    margin: 10px 0;
 }
 
-.card {
-    width: 100%;
-    background-color: white;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+a.test-link {
+    background: #007bff;
+    color: white;
+    display: block;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
     text-align: center;
 }
 
-.question {
-    font-size: 20px;
-    margin-bottom: 25px;
-}
-
-.option {
-    display: block;
-    text-align: left;
-    font-size: 16px;
-    margin: 12px 0;
-    cursor: pointer;
-    background: none !important;
-    border: none !important;
-    padding: 0 !important;
-}
-
-.option input[type="radio"] {
-    transform: scale(1.2);
-    margin-right: 10px;
-}
-
-.btn {
-    margin-top: 20px;
-    width: 100%;
-    padding: 14px;
-    background-color: dodgerblue;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.result {
-    font-size: 22px;
-    margin-bottom: 20px;
+a.test-link:hover {
+    opacity: 0.9;
 }
