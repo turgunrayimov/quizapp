@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Fanlar</title>
+    <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
+</head>
+<body>
+<h1>Fanlar ro'yxati</h1>
+<ul>
+    {% for sub in subjects %}
+    <li>
+        <a class="test-link" href="{% url 'test_list' sub.id %}">{{ sub.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+</body>
+</html>

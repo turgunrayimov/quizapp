@@ -3,7 +3,7 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Test {{ test_no }}</title>
+    <title>{{ subject.name }} — Test {{ test_no }}</title>
     <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <h2>Savol {{ index }}/{{ total }}</h2>
     <h3>{{ question.text }}</h3>
 
-    <form action="{% url 'submit' test_no %}" method="POST">
+    <form action="{% url 'submit' subject.id test_no %}" method="POST">
         {% csrf_token %}
         {% for ans in answers %}
         <p>

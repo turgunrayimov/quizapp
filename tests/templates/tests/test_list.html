@@ -3,18 +3,18 @@
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
-    <title>Testlar ro'yxati</title>
+    <title>{{ subject.name }} — Testlar</title>
     <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
 </head>
 <body>
-<h1>Testlar ro'yxati</h1>
-
+<h1>{{ subject.name }} fanidagi testlar</h1>
 <ul>
     {% for t in tests %}
     <li>
-        <a class="test-link" href="{% url 'quiz' t %}">Test {{ t }}</a>
+        <a class="test-link" href="{% url 'quiz' subject.id t %}">Test {{ t }}</a>
     </li>
     {% endfor %}
 </ul>
+<a href="{% url 'subject_list' %}" class="btn btn-success">Fanlar ro'yxatiga qaytish</a>
 </body>
 </html>
