@@ -28,6 +28,10 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.style.WARNING(f"Fan mavjud: {subject_name}"))
 
+            questions = Question.objects.filter(subject=subject)
+            Answer.objects.filter(question__in=questions).delete()
+            questions.delete()
+
             # Word faylni ochamiz
             doc = Document(filepath)
             current_question = None
@@ -41,7 +45,7 @@ class Command(BaseCommand):
                 # Savol aniqlash:
                 # Belgilar: Q:, 1., ? yoki *
                 first_char = text[0]
-                if text.startswith("Q:") or text[0].isdigit() and text[1] == "." or first_char in ["?", "*"]:
+                if first_char in ["?", "*"] or (first_char.isdigit() and len(text) > 1 and text[1] == "."):
                     # Savol yaratish
                     current_question = Question.objects.create(
                         subject=subject,
