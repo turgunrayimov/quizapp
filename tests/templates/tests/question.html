@@ -7,19 +7,66 @@
     <link rel="stylesheet" href="{% static 'tests/css/styles.css' %}">
 </head>
 <body>
+
 <div class="card">
     <h2>Savol {{ index }}/{{ total }}</h2>
     <h3>{{ question.text }}</h3>
 
-    <form action="{% url 'submit' subject.id test_no %}" method="POST">
+    <form id="quiz-form" action="{% url 'submit' subject.id test_no %}" method="POST">
         {% csrf_token %}
-        {% for ans in answers %}
-        <p>
-            <label><input type="radio" name="answer" value="{{ ans.id }}" required> {{ ans.text }}</label>
-        </p>
-        {% endfor %}
-        <button type="submit">Keyingi</button>
+        <input type="hidden" name="answer_id" id="answer_id">
+
+        <div class="answers">
+            {% for ans in answers %}
+            <button
+                type="button"
+                class="answer-btn"
+                data-id="{{ ans.id }}"
+                data-correct="{{ ans.is_correct|yesno:'true,false' }}"
+            >
+                {{ ans.text }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <button type="submit" id="next-btn" class="next-btn" disabled>
+            Keyingi →
+        </button>
     </form>
 </div>
+
+<script>
+    const buttons = document.querySelectorAll(".answer-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const answerInput = document.getElementById("answer_id");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            // agar allaqachon tanlangan bo‘lsa – qayta bosilmasin
+            if (btn.classList.contains("selected")) return;
+
+            const isCorrect = btn.dataset.correct === "true";
+            answerInput.value = btn.dataset.id;
+
+            // hamma variantlarni bloklash
+            buttons.forEach(b => {
+                b.classList.add("disabled");
+
+                if (b.dataset.correct === "true") {
+                    b.classList.add("correct-border");
+                }
+            });
+
+            // tanlangan noto‘g‘ri bo‘lsa – qizil border
+            if (!isCorrect) {
+                btn.classList.add("wrong-border");
+            }
+
+            btn.classList.add("selected");
+            nextBtn.disabled = false;
+        });
+    });
+</script>
+
 </body>
 </html>
