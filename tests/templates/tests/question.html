@@ -24,7 +24,7 @@
                 data-id="{{ ans.id }}"
                 data-correct="{{ ans.is_correct|yesno:'true,false' }}"
             >
-                {{ ans.text }}
+                {{ forloop.counter }}. {{ ans.text }}
             </button>
             {% endfor %}
         </div>
