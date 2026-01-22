@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Subject, Question, Answer
 import math
+import random
 
 PAGE_SIZE = 30
 
@@ -39,7 +40,8 @@ def quiz(request, subject_id, test_no):
         return redirect('result', subject_id=subject.id, test_no=test_no)
 
     question = group[q_index]
-    answers = Answer.objects.filter(question=question)
+    answers = list(Answer.objects.filter(question=question))
+    random.shuffle(answers)
 
     return render(request, 'tests/question.html', {
         'question': question,
