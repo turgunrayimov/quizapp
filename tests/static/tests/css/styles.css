@@ -121,3 +121,37 @@ a.test-link:hover {
     background: #a0a0a0;
     cursor: not-allowed;
 }
+
+@media (max-width: 768px) {
+
+    body {
+        margin: 0;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .card, .box {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 22px;
+        line-height: 1.4;
+    }
+
+    label {
+        font-size: 18px;
+        display: block;
+        padding: 12px;
+    }
+
+    button {
+        font-size: 20px;
+        padding: 14px;
+    }
+}
