@@ -31,7 +31,7 @@ def quiz(request, subject_id, test_no):
     q_index = request.session.get(q_index_key, 0)
 
     subject = Subject.objects.get(id=subject_id)
-    questions = Question.objects.filter(subject=subject)
+    questions = Question.objects.filter(subject=subject).order_by('id')
     start = (test_no - 1) * PAGE_SIZE
     end = start + PAGE_SIZE
     group = list(questions[start:end])
