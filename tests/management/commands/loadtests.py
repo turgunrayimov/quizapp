@@ -55,7 +55,7 @@ class Command(BaseCommand):
                 # ----------------------
                 # SAVOL
                 # ----------------------
-                if text.startswith("?"):
+                if text.startswith(("?", "*")):
                     question_text = text[1:].strip()
 
                     if not question_text:
