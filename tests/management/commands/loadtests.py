@@ -47,58 +47,59 @@ class Command(BaseCommand):
             question_count = 0
 
             for paragraph in doc.paragraphs:
-                text = paragraph.text.strip()
+                for line in paragraph.text.splitlines():
+                    text = line.strip()
 
-                if not text:
-                    continue
-
-                # ----------------------
-                # SAVOL
-                # ----------------------
-                if text.startswith(("?", "*")):
-                    question_text = text[1:].strip()
-
-                    if not question_text:
+                    if not text:
                         continue
 
-                    current_question = Question.objects.create(
-                        subject=subject,
-                        text=question_text
-                    )
-                    question_count += 1
-                    continue
+                    # ----------------------
+                    # SAVOL
+                    # ----------------------
+                    if text.startswith(("?", "*")):
+                        question_text = text[1:].strip()
 
-                # Agar savol hali yaratilmagan bo‘lsa
-                if current_question is None:
-                    self.stdout.write(
-                        self.style.WARNING(f"Savolsiz javob topildi: {text}")
-                    )
-                    continue
+                        if not question_text:
+                            continue
 
-                # ----------------------
-                # TO‘G‘RI JAVOB
-                # ----------------------
-                if text.startswith("+"):
-                    Answer.objects.create(
-                        question=current_question,
-                        text=text[1:].strip(),
-                        is_correct=True
-                    )
+                        current_question = Question.objects.create(
+                            subject=subject,
+                            text=question_text
+                        )
+                        question_count += 1
+                        continue
 
-                # ----------------------
-                # NOTO‘G‘RI JAVOB
-                # ----------------------
-                elif text.startswith("="):
-                    Answer.objects.create(
-                        question=current_question,
-                        text=text[1:].strip(),
-                        is_correct=False
-                    )
+                    # Agar savol hali yaratilmagan bo‘lsa
+                    if current_question is None:
+                        self.stdout.write(
+                            self.style.WARNING(f"Savolsiz javob topildi: {text}")
+                        )
+                        continue
 
-                else:
-                    self.stdout.write(
-                        self.style.WARNING(f"Noma’lum format: {text}")
-                    )
+                    # ----------------------
+                    # TO‘G‘RI JAVOB
+                    # ----------------------
+                    if text.startswith("+"):
+                        Answer.objects.create(
+                            question=current_question,
+                            text=text[1:].strip(),
+                            is_correct=True
+                        )
+
+                    # ----------------------
+                    # NOTO‘G‘RI JAVOB
+                    # ----------------------
+                    elif text.startswith("="):
+                        Answer.objects.create(
+                            question=current_question,
+                            text=text[1:].strip(),
+                            is_correct=False
+                        )
+
+                    else:
+                        self.stdout.write(
+                            self.style.WARNING(f"Noma’lum format: {text}")
+                        )
 
             self.stdout.write(
                 self.style.SUCCESS(
