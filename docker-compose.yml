@@ -1,0 +1,13 @@
+services:
+  web:
+    build: .
+    container_name: django_sqlite_app
+    # Loyihani ishga tushirish buyrug'i
+    command: gunicorn quizapp.wsgi:application --bind 0.0.0.0:8000
+    # Portlarni bog'lash
+    ports:
+      - "8000:8000"
+    # Muhim joyi: Konteyner ichidagi bazani tashqariga chiqarib qo'yamiz
+    volumes:
+      - .:/app
+    restart: always
