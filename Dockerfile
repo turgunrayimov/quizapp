@@ -21,5 +21,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # 6. Loyihaning qolgan barcha kodlarini ko'chiramiz
 COPY . /app/
 
-# 7. Loyihani ishga tushiruvchi buyruq (Hozircha test uchun runserver)
-CMD ["gunicorn", "quizapp.wsgi:application", "--bind", "0.0.0.0:8000"]
+COPY entrypoint.sh /app/entrypoint.sh
+
+RUN chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
