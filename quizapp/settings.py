@@ -27,7 +27,6 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
-#ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
